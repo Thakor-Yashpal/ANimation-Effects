@@ -1,0 +1,620 @@
+@font-face {
+    font-family: Domaine;
+    src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/383755/DomaineDisplayTest-Black.woff);
+}
+
+$bl: #219ce8;
+$b: darken($bl, 20%);
+$g: darken($bl, 30%);
+$w: #fff;
+$tr: cubic-bezier(1, 0, 0, 1);
+$t: transparent;
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    font-family: "Futura";
+    overflow: hidden;
+    background: $bl;
+    color: $b;
+    svg {
+        position: absolute;
+        z-index: -9999;
+    }
+    &:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/383755/studio-ghibli.png");
+        background-size: cover;
+        background-position: center;
+        opacity: 0.25;
+        animation: squiggly-anim 0.3s infinite;
+    }
+    * {
+        box-sizing: border-box;
+    }
+    #wrap {
+        position: relative;
+        .spritebox {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            overflow: hidden;
+        }
+        .sprite {
+            position: absolute;
+            z-index: 999;
+            width: 40px;
+            height: 40px;
+            top: -20px;
+            transform: rotate(-90deg);
+            @keyframes scatter {
+                from {
+                    offset-distance: 0;
+                }
+                to {
+                    offset-distance: 120%;
+                }
+            }
+            @keyframes scatter2 {
+                from {
+                    offset-distance: 0;
+                }
+                to {
+                    offset-distance: 120%;
+                }
+            }
+            &:first-of-type,
+            &:nth-of-type(5),
+            &:nth-of-type(10) {
+                offset-path: path( "M 40 0 C 75 170 160 140 200 280 Q 220 400 340 400 Q 420 380 480 540 ");
+            }
+            &:nth-of-type(3),
+            &:nth-of-type(12) {
+                offset-path: path( "M 480 0 C 75 170 400 180 240 320 Q 220 400 260 420 Q 340 440 220 540 ");
+                transform: rotate(-90deg);
+            }
+            &:nth-of-type(4),
+            &:nth-of-type(11),
+            &:nth-of-type(2) {
+                offset-path: path( "M 420 0 C 480 260 380 380 260 300 Q 200 180 320 160 Q 660 260 280 540 ");
+            }
+            &:nth-of-type(6),
+            &:nth-of-type(9) {
+                offset-path: path( "M 420 0 C 480 260 380 200 160 80 Q 0 20 60 160 Q 200 320 140 540 ");
+            }
+            &:nth-of-type(7),
+            &:nth-of-type(8) {
+                offset-path: path( "M 160 0 C 200 20 360 80 300 140 Q 280 200 140 340 Q 80 400 140 540");
+            }
+            .spritebody {
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to right, $t 49%, $g 49%, $g 51%, $t 51%), linear-gradient(to bottom, $t 49%, $g 49%, $g 51%, $t 51%), linear-gradient(45deg, $t 49%, $g 49%, $g 51%, $t 51%), linear-gradient(135deg, $t 49%, $g 49%, $g 51%, $t 51%), linear-gradient(22.5deg, $t 49%, $g 49%, $g 51%, $t 51%), linear-gradient(79deg, $t 49%, $g 49%, $g 51%, $t 51%), linear-gradient(12deg, $t 49%, $g 49%, $g 51%, $t 51%), linear-gradient(106deg, $t 49%, $g 49%, $g 51%, $t 51%), linear-gradient(136deg, $t 49%, $g 49%, $g 51%, $t 51%), linear-gradient(145deg, $t 49%, $g 49%, $g 51%, $t 51%), linear-gradient(175deg, $t 49%, $g 49%, $g 51%, $t 51%), linear-gradient(205deg, $t 49%, $g 49%, $g 51%, $t 51%), linear-gradient(65deg, $t 49%, $g 49%, $g 51%, $t 51%), radial-gradient(circle at center, $g 50%, $t 60%);
+                border-radius: 100%;
+                z-index: -1;
+                animation: squiggly-anim 0.2s infinite;
+            }
+            @for $i from 1 through 5 {
+                &:nth-of-type(#{$i}) {
+                    &:before,
+                    &:after {
+                        animation-delay: #{$i/4}s;
+                    }
+                    .spritebody {
+                        transform: scale(#{1 - ($i/20)});
+                    }
+                }
+            }
+            @for $i from 6 through 12 {
+                &:nth-of-type(#{$i}) {
+                    .spritebody {
+                        transform: scale(#{0.3 + ($i/20)});
+                    }
+                }
+            }
+            &:nth-of-type(2n) {
+                &:after,
+                &:before {
+                    box-shadow: inset 0px 2px 0 2px $w;
+                }
+            }
+            &:nth-of-type(3n) {
+                &:after,
+                &:before {
+                    box-shadow: inset -1px 0px 0 2px $w;
+                    top: 15px;
+                }
+            }
+            &:nth-of-type(4n) {
+                &:after,
+                &:before {
+                    box-shadow: inset -1px -2px 0 2px $w;
+                    top: 15px;
+                }
+            }
+            &:after,
+            &:before {
+                content: "";
+                position: absolute;
+                width: 8px;
+                height: 10px;
+                background: $g;
+                border-radius: 100%;
+                box-shadow: inset 2px 2px 0 2px $w;
+                left: 10px;
+                top: 20px;
+                animation: backnforth 0.3s ease-in-out infinite alternate;
+                z-index: 9;
+                @keyframes backnforth {
+                    from {
+                        transform: translateX(-2.5px);
+                    }
+                    to {
+                        transform: translateX(2.5px);
+                    }
+                }
+            }
+            &:before {
+                left: 20px;
+                animation: backnforth2 0.3s ease-in-out infinite alternate;
+                @keyframes backnforth2 {
+                    from {
+                        transform: scaleX(-1) translateX(2.5px);
+                    }
+                    to {
+                        transform: scaleX(-1) translateX(-2.5px);
+                    }
+                }
+            }
+        }
+        &:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0%;
+            left: 0%;
+            background: $b;
+            box-shadow: 0 0 0 3px $b;
+            z-index: -1;
+            animation: squiggly-anim 0.3s infinite;
+            transform: scaleX(0);
+            transition: 1s $tr;
+            transition-delay: 1s;
+        }
+        &.loaded {
+            .spritebox {
+                &.zoomies {
+                    .sprite {
+                        animation: scatter2 1s ease-in-out 1 forwards;
+                    }
+                }
+                .sprite {
+                    animation: scatter 2s ease-in-out 1 forwards;
+                    @for $i from 1 through 12 {
+                        &:before,
+                        &:after {
+                            animation-delay: #{0.5/$i}s;
+                        }
+                        &:nth-of-type(#{$i}) {
+                            left: calc(#{($i - 1) * 5.25%} - 150px);
+                            animation-delay: #{2/($i + random(10)) + 0.5}s;
+                            animation-duration: #{6/(random(10)) + 1}s;
+                        }
+                    }
+                }
+            }
+            &:after {
+                transform: scaleX(1);
+            }
+            .arrow {
+                transform: scale(1);
+            }
+            .container {
+                transform: scaleX(1);
+                &:before {
+                    transform: scaleX(0);
+                }
+            }
+        }
+        .arrow {
+            position: absolute;
+            z-index: 999;
+            width: 40px;
+            height: 40px;
+            background: $b;
+            right: -40px;
+            top: calc(50% - 20px);
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out, background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            transform: scale(0);
+            transition-delay: 2s, 0s, 0s;
+            animation: squiggly-anim 0.3s infinite;
+            &:nth-of-type(2) {
+                right: auto;
+                left: -40px;
+                &:active {
+                    &:before {
+                        box-shadow: -2px -2px 0 0 $bl;
+                    }
+                }
+                &:hover {
+                    &:before {
+                        box-shadow: -2px -2px 0 0 $b;
+                    }
+                }
+                &:before {
+                    box-shadow: -2px -2px 0 0 #fff;
+                    left: auto;
+                    right: 5%;
+                }
+            }
+            &:hover {
+                background: $w;
+                box-shadow: inset 0 0 0 3px $b;
+                &:active {
+                    background: $b;
+                    &:before {
+                        box-shadow: 2px 2px 0 0 $bl;
+                    }
+                }
+                &:before {
+                    box-shadow: 2px 2px 0 0 $b;
+                }
+            }
+            &:before {
+                content: "";
+                position: absolute;
+                width: 50%;
+                height: 50%;
+                top: 25%;
+                left: 5%;
+                box-shadow: 2px 2px 0 0 #fff;
+                transform: rotate(-45deg);
+                transition: inherit;
+            }
+        }
+    }
+    .container {
+        height: 500px;
+        width: 700px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 30px 30px -20px rgba(0, 0, 0, 0.25);
+        transition: 0.5s $tr;
+        transform: scaleX(0);
+        transform-origin: left;
+        &:before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            background: $b;
+            top: 0;
+            left: 0;
+            transition: inherit;
+            transform-origin: right;
+            transition-delay: 0.5s;
+        }
+        .inner {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            transform: translateX(var(--slide));
+            transition: 0s ease-in-out;
+            transition-delay: 1.5s;
+        }
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            padding: 30px;
+            box-sizing: border-box;
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-direction: column-reverse;
+            background: $bl;
+            &:before {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to bottom, transparent 35%, $bl 75%);
+                top: 0;
+                left: 0;
+                z-index: 1;
+            }
+            &:after {
+                content: "";
+                position: absolute;
+                display: block;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                background: linear-gradient(-135deg, $t 50%, $bl 50%);
+                opacity: 0.5;
+                z-index: 1;
+            }
+            &.active {
+                .bg {
+                    opacity: 1;
+                    transform: scale(1.25);
+                    transition: 1.5s ease-in-out;
+                    transition-delay: 2.25s;
+                }
+                h3 {
+                    .char {
+                        @for $i from 1 through 4 {
+                            &:nth-of-type(#{$i}) {
+                                transition-delay: #{$i/15 + 2}s;
+                                transform: translateY(0);
+                            }
+                        }
+                    }
+                }
+                h1 {
+                    opacity: 1;
+                    .word {
+                        @for $i from 1 through 10 {
+                            &:nth-of-type(#{$i}) {
+                                &:before {
+                                    transition-delay: #{$i/10 + 2.4}s;
+                                }
+                                &:after {
+                                    animation-delay: #{$i/10 + 2}s;
+                                }
+                            }
+                        }
+                        &:before {
+                            transform: translateY(0);
+                        }
+                        &:after {
+                            animation: scaleIn 0.6s ease-in-out;
+                            animation-delay: 2s;
+                            @keyframes scaleIn {
+                                0% {
+                                    transform: scaleX(0);
+                                }
+                                25% {
+                                    transform: scaleX(1);
+                                    transform-origin: left;
+                                }
+                                75% {
+                                    transform: scaleX(1);
+                                    transform-origin: right;
+                                }
+                                100% {
+                                    transform: scaleX(0);
+                                    transform-origin: right;
+                                }
+                            }
+                        }
+                    }
+                    .smallcaps {
+                        .word {
+                            @for $i from 1 through 10 {
+                                &:nth-of-type(#{$i}) {
+                                    &:before {
+                                        transition-delay: #{$i/12 + 2.6}s;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .content {
+                    transition-delay: 2s;
+                    transform: scaleX(1);
+                    transform-origin: left;
+                    &:before {
+                        transform: scaleX(0);
+                        transition-delay: 2.5s;
+                        transform-origin: right;
+                    }
+                    p {
+                        opacity: 1;
+                        transition-delay: 3s;
+                    }
+                }
+            }
+            .bg {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                opacity: 0;
+                transform: scale(1);
+                transition: 1.5s ease-in-out;
+                div {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    left: 0;
+                    top: 0;
+                    opacity: 0.5;
+                    background-size: cover;
+                    background-position: center;
+                    filter: saturate(0) contrast(2) brightness(1);
+                }
+                &:before,
+                &:after {
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    left: 0;
+                    top: 0;
+                    background: linear-gradient(-135deg, $w 50%, $bl 50%);
+                    z-index: 2;
+                    mix-blend-mode: multiply;
+                }
+                &:after {
+                    background: $bl;
+                    z-index: 1;
+                    mix-blend-mode: soft-light;
+                }
+            }
+            .content {
+                z-index: 3;
+                display: inline-block;
+                width: 100%;
+                padding: 10px 20px;
+                position: relative;
+                transition: transform 0.5s $tr;
+                transform-origin: right;
+                transform: scaleX(0);
+                transition-delay: 0.5s;
+                &:before,
+                &:after {
+                    content: "";
+                    position: absolute;
+                    width: calc(100% + 4px);
+                    height: calc(100% + 4px);
+                    top: -2px;
+                    left: -2px;
+                    background: $b;
+                    z-index: 2;
+                    transition: transform 0.5s $tr;
+                    transform-origin: left;
+                    transition-delay: 0s;
+                    animation: squiggly-anim 0.3s infinite;
+                }
+                &:after {
+                    background: $w;
+                    transform: scaleX(1);
+                    z-index: -1;
+                    width: 100%;
+                    height: 100%;
+                    left: 0;
+                    top: 0;
+                }
+            }
+            h3 {
+                position: absolute;
+                z-index: 99;
+                color: $w;
+                font-size: 50px;
+                top: 10px;
+                right: 10px;
+                margin: 0;
+                mix-blend-mode: overlay;
+                .char {
+                    display: inline-block;
+                    transform: translateY(-200%) skewY(40deg);
+                    transition: 0.8s $tr;
+                }
+            }
+            h1 {
+                font-family: "Domaine";
+                font-size: 80px;
+                margin: 10px 0 20px;
+                top: 0px;
+                left: -5px;
+                z-index: 0;
+                color: $t;
+                max-width: calc(100% + 10px);
+                transition: 0.3s $tr;
+                transform: translateX(-30px);
+                opacity: 1;
+                font-weight: 900;
+                padding: 0 30px;
+                z-index: 9;
+                opacity: 0;
+                max-width: 75%;
+                line-height: 0.85;
+                transition-delay: 0.6s;
+                .word {
+                    position: relative;
+                    color: $t;
+                    display: inline-block;
+                    overflow: hidden;
+                    padding: 30px 10px;
+                    margin: -30px -10px;
+                    &:before {
+                        content: attr(data-word);
+                        position: absolute;
+                        color: $w;
+                        transition: 0.3s $tr;
+                        transform: translateY(300%) skewY(-20deg);
+                        transition-delay: 0s;
+                    }
+                    &:after {
+                        content: "";
+                        position: absolute;
+                        width: 100%;
+                        height: 4px;
+                        left: 0;
+                        background: $b;
+                        top: calc(100% - 30px);
+                        transition: 0.3s $tr;
+                        transform-origin: left;
+                        transform: scaleX(0);
+                        transition-delay: 0.3s;
+                    }
+                }
+                .smallcaps {
+                    display: block;
+                    font-size: 40px;
+                    margin-left: -10px;
+                    .smallcaps {
+                        display: inline-block;
+                        margin-left: 5px;
+                    }
+                }
+            }
+            p {
+                position: relative;
+                z-index: 1;
+                opacity: 0;
+                transition: 0.3s ease-in-out;
+                font-size: 17px;
+                line-height: 1.5;
+                padding: 0;
+                margin: 0;
+                color: $g;
+            }
+            @for $i from 1 through 40 {
+                &:nth-of-type(#{$i}) {
+                    left: #{($i - 1) * 100%};
+                }
+            }
+        }
+    }
+    @keyframes squiggly-anim {
+        0% {
+            -webkit-filter: url("#squiggly-0");
+            filter: url("#squiggly-0");
+        }
+        25% {
+            -webkit-filter: url("#squiggly-1");
+            filter: url("#squiggly-1");
+        }
+        50% {
+            -webkit-filter: url("#squiggly-2");
+        }
+        75% {
+            -webkit-filter: url("#squiggly-3");
+            filter: url("#squiggly-3");
+        }
+        100% {
+            -webkit-filter: url("#squiggly-4");
+            filter: url("#squiggly-4");
+        }
+    }
+}
